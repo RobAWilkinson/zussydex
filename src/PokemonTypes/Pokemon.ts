@@ -124,7 +124,8 @@ type PokemonType = {
 
 
 type Types = PokemonType[];
-export type Pokemon = Partial<{
+
+export interface DetailedPokemon extends BasicPokemon {
     types: Types;
     abilities: Ability[];
     base_experience: number;
@@ -133,14 +134,18 @@ export type Pokemon = Partial<{
     game_indices: GameIndices[];
     height: number;
     held_items: [];
-    id: number;
     is_default: boolean;
     location_area_encounters: string;
     moves: Moves;
-    name: string;
     order: number;
     past_abilities: AbilityDetails[];
     species: Species;
     sprites: Sprites;
     stats: Stats;
-}> & { name: string; url: string }
+}
+
+export interface BasicPokemon {
+    name: string;
+    url: string;
+    id: number;
+}
