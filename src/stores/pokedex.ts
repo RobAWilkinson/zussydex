@@ -14,7 +14,7 @@ interface PokemonState {
     pokemon: PokemonArray;
     loading: boolean;
     error: string | null;
-    fetchPokemon: () => void;
+    fetchPokemon: (offset?: number) => void;
     fetchDetails: (pokemon: BasicPokemon, index: number) => void;
     fetchMorePokemon: () => void;
     resetState: () => void
@@ -27,16 +27,22 @@ const usePokemonStore = create<PokemonState>()(
                 pokemon: [],
                 loading: false,
                 error: null,
-                fetchPokemon: async () => {
+                fetchPokemon: async (offset?: number) => {
                     set({loading: true, error: null});
+                    let url = offset ? 'https://pokeapi.co/api/v2/pokemon?offset=' + offset : "https://pokeapi.co/api/v2/pokemon/";
                     try {
-                        const response = await fetch('https://pokeapi.co/api/v2/pokemon/');
+                        const response = await fetch(url);
                         const data = await response.json();
                         let pokemon = data.results.map((obj: any) => ({
                             ...obj,
-                            id: parseInt(obj.url.match(/\/(\d+)\/$/)[1], 9)
+                            id: parseInt(obj.url.match(/\/(\d+)\/$/)[1], 10)
                         }));
-                        set({pokemon: pokemon as BasicPokemon[], loading: false});
+                        set(
+                            produce(state => {
+                                state.pokemon = state.pokemon.concat(pokemon);
+                                state.loading = false;
+                            })
+                        );
                     } catch (error) {
                         set({error: 'Failed to fetch data', loading: false});
                     }
@@ -49,8 +55,8 @@ const usePokemonStore = create<PokemonState>()(
                         const updatedPokemon = data as DetailedPokemon;
                         set(
                             produce(state => {
-                                let pokemon = [...state.pokemon.slice(0, index), updatedPokemon, ...state.pokemon.slice(index + 1)];
-                                state.pokemon = pokemon;
+                                let newPokemon = [...state.pokemon.slice(0, index), updatedPokemon, ...state.pokemon.slice(index + 1)];
+                                state.pokemon = newPokemon;
                                 state.loading = false;
                             })
                         );
@@ -61,17 +67,7 @@ const usePokemonStore = create<PokemonState>()(
                 fetchMorePokemon: async () => {
                     set({loading: true, error: null});
                     const offset = get().pokemon.length
-                    try {
-                        const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=' + offset);
-                        const data = await response.json();
-                        set(state => ({
-                            pokemon: [...state.pokemon, ...data.results as BasicPokemon[]],
-                            loading: false
-                        }));
-                    } catch (error) {
-                        set({error: 'Failed to fetch data', loading: false});
-                    }
-
+                    await get().fetchPokemon(offset)
                 },
                 resetState: () => {
                     set(initialState);
