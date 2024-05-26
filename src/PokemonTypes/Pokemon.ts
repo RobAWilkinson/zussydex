@@ -126,17 +126,17 @@ type PokemonType = {
 type Types = PokemonType[];
 export type Pokemon = Partial<{
     types: Types;
-    abilities: AbilityDetails[];
+    abilities: Ability[];
     base_experience: number;
     cries: CryUrls[];
-    forms: FormDetails[];
+    forms: Forms;
     game_indices: GameIndices[];
     height: number;
     held_items: [];
     id: number;
     is_default: boolean;
     location_area_encounters: string;
-    moves: MoveDetails[];
+    moves: Moves;
     name: string;
     order: number;
     past_abilities: AbilityDetails[];

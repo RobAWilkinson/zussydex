@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import {Pokemon} from "../PokemonTypes/Pokemon";
 import {createJSONStorage, devtools, persist} from 'zustand/middleware'
-import type {} from '@redux-devtools/extension'
 
 interface PokemonState {
     pokemon: Pokemon[];
