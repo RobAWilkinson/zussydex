@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
 import usePokemonStore from './stores/pokedex';
 import {Pokemon} from "./PokemonTypes/Pokemon";
-import { throttle } from 'lodash';
+import {throttle} from 'lodash';
 
 interface PokemonProps {
     pokemon: Pokemon;
     fetchDetails: Function;
     index: number;
 }
+
 type DivClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
 
@@ -30,7 +31,7 @@ const useScrollToBottom = (onScrollToBottom: () => void) => {
     }, [onScrollToBottom]);
 };
 
-const PokemonComponent: React.FC<PokemonProps> = ({pokemon, fetchDetails, index }) => {
+const PokemonComponent: React.FC<PokemonProps> = ({pokemon, fetchDetails, index}) => {
     const handleClick = (event: DivClickEvent): void => {
         event.preventDefault();
         fetchDetails(pokemon, index)
@@ -40,7 +41,7 @@ const PokemonComponent: React.FC<PokemonProps> = ({pokemon, fetchDetails, index 
             <p>Name: {pokemon.name}</p>
             <p>URL: <a href={pokemon.url}>{pokemon.url}</a></p>
             {pokemon.sprites?.front_default &&
-            <img src={pokemon.sprites.front_default} />}
+                <img src={pokemon.sprites.front_default}/>}
         </div>
     );
 };
