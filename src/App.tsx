@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import PokemonListComponent from "./PokemonComponent";
+
+import PokemonListComponent from "./components/PokemonListComponent";
 
 
 const App: React.FC = () => {
