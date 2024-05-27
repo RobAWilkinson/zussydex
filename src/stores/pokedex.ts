@@ -55,8 +55,7 @@ const usePokemonStore = create<PokemonState>()(
                         const updatedPokemon = data as DetailedPokemon;
                         set(
                             produce(state => {
-                                let newPokemon = [...state.pokemon.slice(0, index), updatedPokemon, ...state.pokemon.slice(index + 1)];
-                                state.pokemon = newPokemon;
+                                state.pokemon = [...state.pokemon.slice(0, index), updatedPokemon, ...state.pokemon.slice(index + 1)];
                                 state.loading = false;
                             })
                         );
