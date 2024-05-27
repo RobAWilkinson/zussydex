@@ -8,7 +8,6 @@ const App: React.FC = () => {
 
     return (
         <div>
-            <h1>Pokemon Fetcher</h1>
             <PokemonListComponent/>
         </div>
     );
