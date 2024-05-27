@@ -28,18 +28,26 @@ const usePokemonStore = create<PokemonState>()(
                 loading: false,
                 error: null,
                 fetchPokemon: async (offset?: number) => {
+                    // TODO: somehow this is firing twice, need to setup the state monitor so it only adds UNIQUE pokemon based on their ID
+                    // I imagine this could be achievable via a findIndex call, but this feels really slow, at that point we're doing a fully array scan and then a push for each indiviaul pokemon
                     set({loading: true, error: null});
                     let url = offset ? 'https://pokeapi.co/api/v2/pokemon?offset=' + offset : "https://pokeapi.co/api/v2/pokemon/";
                     try {
                         const response = await fetch(url);
                         const data = await response.json();
+
                         let pokemon = data.results.map((obj: any) => ({
                             ...obj,
                             id: parseInt(obj.url.match(/\/(\d+)\/$/)[1], 10)
                         }));
+
                         set(
                             produce(state => {
-                                state.pokemon = state.pokemon.concat(pokemon);
+                                const existingPokemon = state.pokemon;
+                                const newPokemon = pokemon.filter(
+                                    (i: BasicPokemon) => existingPokemon.findIndex((a: BasicPokemon) => a.id === i.id) === -1
+                                );
+                                state.pokemon.push(...newPokemon);
                                 state.loading = false;
                             })
                         );
@@ -65,7 +73,9 @@ const usePokemonStore = create<PokemonState>()(
                 },
                 fetchMorePokemon: async () => {
                     set({loading: true, error: null});
-                    const offset = get().pokemon.length
+                    const pokemon = get().pokemon;
+                    const offset = pokemon.length
+
                     await get().fetchPokemon(offset)
                 },
                 resetState: () => {

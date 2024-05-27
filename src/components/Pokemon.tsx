@@ -28,7 +28,8 @@ export const Pokemon: React.FC<PokemonProps> = ({pokemon, fetchDetails, index}) 
     };
 
     return (
-        <div className="bg-gameboy-light-green p-4 rounded border-2 border-gameboy-black" onClick={handleClick}>
+        <div className="bg-gameboy-light-green p-4 rounded border-2 border-gameboy-black cursor-pointer"
+             onClick={handleClick}>
             <div className="flex justify-between items-center mb-2">
                 <span className="font-gameboy text-sm text-gameboy-dark-green">#{pokemon.id}</span>
                 <span className="font-gameboy text-sm text-gameboy-dark-green">{pokemon.name.toUpperCase()}</span>

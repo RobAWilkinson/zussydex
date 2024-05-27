@@ -22,9 +22,12 @@ const useScrollToBottom = (onScrollToBottom: () => void) => {
         };
     }, [onScrollToBottom]);
 };
-const PokemonListComponent: React.FC = () => {
+const PokeDexContainer: React.FC = () => {
     const {resetState, pokemon, loading, error, fetchPokemon, fetchDetails, fetchMorePokemon} = usePokemonStore();
 
+    useEffect(() => {
+        fetchPokemon();
+    }, []);
     const handleScrollToBottom = () => {
         fetchMorePokemon();
         console.log('User has scrolled to the bottom of the page');
@@ -35,14 +38,10 @@ const PokemonListComponent: React.FC = () => {
     return (
         <div className="min-h-screen bg-gameboy-green flex items-center justify-center">
             <div className="w-full max-w-md bg-gameboy-gray p-4 rounded-lg shadow-lg border-4 border-gameboy-black">
-                <h1 className="text-2xl font-gameboy text-gameboy-dark-green text-center mb-4">Pokedex</h1>
+                <h1 className="text-2xl font-gameboy text-gameboy-dark-green text-center mb-4">PokeDex</h1>
                 <button onClick={resetState} disabled={loading}>
                     {loading ? 'Loading...' : 'Reset Pokemon'}
                 </button>
-                <button onClick={() => fetchPokemon()} disabled={loading}>
-                    {loading ? 'Loading...' : 'Fetch Pokemon'}
-                </button>
-
                 {error && <div style={{color: 'red'}}>{error}</div>}
                 {pokemon && pokemon.map((pokemon, index) => (
                     <Pokemon pokemon={pokemon} index={index} fetchDetails={fetchDetails}/>
@@ -52,4 +51,4 @@ const PokemonListComponent: React.FC = () => {
         </div>
     )
 }
-export default PokemonListComponent;
+export default PokeDexContainer;

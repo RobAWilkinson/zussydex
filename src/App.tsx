@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 
-import PokemonListComponent from "./components/PokemonListComponent";
+import PokeDexContainer from "./components/PokeDexContainer";
 
 
 const App: React.FC = () => {
 
     return (
         <div>
-            <PokemonListComponent/>
+            <PokeDexContainer/>
         </div>
     );
 };
