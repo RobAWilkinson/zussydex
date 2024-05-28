@@ -27,7 +27,7 @@ const PokeDexContainer: React.FC = () => {
 
     useEffect(() => {
         fetchPokemon();
-    }, []);
+    }, [fetchPokemon]);
     const handleScrollToBottom = () => {
         fetchMorePokemon();
         console.log('User has scrolled to the bottom of the page');
