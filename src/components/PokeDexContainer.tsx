@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import usePokemonStore from "../stores/pokedex";
 import {throttle} from "lodash";
-import {Pokemon} from "./Pokemon";
+import Pokemon from "./Pokemon";
 
 
 const useScrollToBottom = (onScrollToBottom: () => void) => {
@@ -44,7 +44,7 @@ const PokeDexContainer: React.FC = () => {
                 </button>
                 {error && <div style={{color: 'red'}}>{error}</div>}
                 {pokemon && pokemon.map((pokemon, index) => (
-                    <Pokemon pokemon={pokemon} index={index} fetchDetails={fetchDetails}/>
+                    <Pokemon pokemon={pokemon} index={index} fetchDetails={fetchDetails} key={pokemon.id}/>
                 ))}
                 {loading ? 'Loading...' : 'Fetch Pokemon'}
             </div>

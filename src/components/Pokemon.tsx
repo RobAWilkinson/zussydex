@@ -11,7 +11,7 @@ interface PokemonProps {
 type DivClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
 
-export const Pokemon: React.FC<PokemonProps> = ({pokemon, fetchDetails, index}) => {
+const Pokemon: React.FC<PokemonProps> = ({pokemon, fetchDetails, index}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const handleClick = (event: DivClickEvent): void => {
         event.preventDefault();
@@ -40,3 +40,4 @@ export const Pokemon: React.FC<PokemonProps> = ({pokemon, fetchDetails, index}) 
         </div>
     )
 };
+export default Pokemon;
