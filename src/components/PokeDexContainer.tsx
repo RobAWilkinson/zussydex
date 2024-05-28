@@ -1,27 +1,9 @@
 import React, {useEffect} from "react";
 import usePokemonStore from "../stores/pokedex";
-import {throttle} from "lodash";
 import Pokemon from "./Pokemon";
+import {useScrollToBottom} from "../helpers/UseScrollToBottom";
 
 
-const useScrollToBottom = (onScrollToBottom: () => void) => {
-    useEffect(() => {
-        const handleScroll = throttle(() => {
-            const scrollPosition = window.innerHeight + window.scrollY;
-            const threshold = document.body.offsetHeight - 100; // Adjust the threshold as needed
-
-            if (scrollPosition >= threshold) {
-                onScrollToBottom();
-            }
-        }, 2000);
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [onScrollToBottom]);
-};
 const PokeDexContainer: React.FC = () => {
     const {resetState, pokemon, loading, error, fetchPokemon, fetchDetails, fetchMorePokemon} = usePokemonStore();
 
